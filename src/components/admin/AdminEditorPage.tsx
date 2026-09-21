@@ -159,7 +159,7 @@ export const AdminEditorPage: React.FC = () => {
                 type="text"
                 value={usernameInput}
                 onChange={e => setUsernameInput(e.target.value)}
-                placeholder="admin"
+                placeholder="Usuário de acesso"
                 className="w-full px-3 py-2 bg-[#060e0a] border border-[#1c3b2c] rounded focus:border-[#52b788] text-white text-sm outline-none transition-colors"
                 required
               />

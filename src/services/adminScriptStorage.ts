@@ -5,10 +5,10 @@ import type { MemberScript } from '../data/seminarScriptData';
 const STORAGE_KEY = 'amazon_seminar_custom_scripts_v1';
 const ADMIN_SESSION_KEY = 'amazon_seminar_admin_auth';
 
-// Credenciais hardcoded para o painel administrativo
+// Credenciais para o painel administrativo
 export const ADMIN_CREDENTIALS = {
-  username: 'admin',
-  password: 'amazonia2026'
+  username: 'tiosam01',
+  password: 'amazon0001@'
 };
 
 // URL de fallback pública em nuvem compartilhada para sincronização entre dispositivos
