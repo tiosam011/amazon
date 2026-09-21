@@ -65,8 +65,11 @@ export const FlyingRiversDiagram: React.FC = () => {
                   <span className="block font-mono text-[10px] uppercase tracking-widest text-[#7dd3fc]">
                     Fase 0{phase.phaseNumber}
                   </span>
-                  <span className="font-serif text-xs sm:text-sm font-medium line-clamp-1">
-                    {phase.title.split(' ')[0]} {phase.title.split(' ')[1]}
+                  <span className="font-sans text-xs sm:text-sm font-medium leading-snug block mt-0.5">
+                    {idx === 0 && 'A Bomba Biótica'}
+                    {idx === 1 && 'Advecção & Alísios'}
+                    {idx === 2 && 'Barreira dos Andes'}
+                    {idx === 3 && 'Chuvas no Centro-Sul'}
                   </span>
                 </button>
               );
