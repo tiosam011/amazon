@@ -16,25 +16,41 @@ import { SystemicConnection } from './components/synthesis/SystemicConnection';
 import { BibliographySection } from './components/references/BibliographySection';
 import { Footer } from './components/layout/Footer';
 import { SeminarScriptPage } from './components/script/SeminarScriptPage';
+import { AdminEditorPage } from './components/admin/AdminEditorPage';
 
 export const App: React.FC = () => {
-  const isScriptRoute = () => {
+  const getRouteType = (): 'script' | 'admin' | 'main' => {
     const path = window.location.pathname.toLowerCase();
     const hash = window.location.hash.toLowerCase();
-    return (
+
+    if (
+      path === '/admin' ||
+      path === '/admin/' ||
+      path.startsWith('/admin') ||
+      hash === '#/admin' ||
+      hash.startsWith('#/admin')
+    ) {
+      return 'admin';
+    }
+
+    if (
       path === '/roteiro' ||
       path === '/roteiro/' ||
       path.startsWith('/roteiro') ||
       hash === '#/roteiro' ||
       hash.startsWith('#/roteiro')
-    );
+    ) {
+      return 'script';
+    }
+
+    return 'main';
   };
 
-  const [isScriptView, setIsScriptView] = useState<boolean>(isScriptRoute);
+  const [currentRoute, setCurrentRoute] = useState<'script' | 'admin' | 'main'>(getRouteType);
 
   useEffect(() => {
     const checkRoute = () => {
-      setIsScriptView(isScriptRoute());
+      setCurrentRoute(getRouteType());
     };
 
     window.addEventListener('popstate', checkRoute);
@@ -45,8 +61,13 @@ export const App: React.FC = () => {
     };
   }, []);
 
-  // Dedicated teleprompter and rehearsal view accessible only directly via /roteiro or #/roteiro
-  if (isScriptView) {
+  // Rota administrativa secreta para edição de textos
+  if (currentRoute === 'admin') {
+    return <AdminEditorPage />;
+  }
+
+  // Visualizador oficial de teleprompter e ensaio
+  if (currentRoute === 'script') {
     return <SeminarScriptPage />;
   }
 

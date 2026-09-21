@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SEMINAR_SCRIPTS } from '../../data/seminarScriptData';
+import type { MemberScript } from '../../data/seminarScriptData';
+import { getPersistedScripts } from '../../services/adminScriptStorage';
 import { Clock, Copy, Check, Eye, EyeOff, ArrowLeft, MonitorPlay, Sparkles } from 'lucide-react';
 
 export const SeminarScriptPage: React.FC = () => {
+  const [scripts, setScripts] = useState<MemberScript[]>(SEMINAR_SCRIPTS);
   const [selectedMemberId, setSelectedMemberId] = useState<number | 'todos'>('todos');
   const [fontSize, setFontSize] = useState<'normal' | 'large' | 'xlarge'>('large');
   const [showCues, setShowCues] = useState<boolean>(true);
   const [copiedId, setCopiedId] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      const data = await getPersistedScripts();
+      setScripts(data);
+    }
+    load();
+  }, []);
 
   const handleCopy = (memberId: number, text: string) => {
     navigator.clipboard.writeText(text);
@@ -15,8 +26,8 @@ export const SeminarScriptPage: React.FC = () => {
   };
 
   const filteredScripts = selectedMemberId === 'todos'
-    ? SEMINAR_SCRIPTS
-    : SEMINAR_SCRIPTS.filter((s) => s.id === selectedMemberId);
+    ? scripts
+    : scripts.filter((s) => s.id === selectedMemberId);
 
   const getFontSizeClass = () => {
     switch (fontSize) {
@@ -110,7 +121,7 @@ export const SeminarScriptPage: React.FC = () => {
           >
             Todos os Membros (Sequência Plena)
           </button>
-          {SEMINAR_SCRIPTS.map((m) => (
+          {scripts.map((m) => (
             <button
               key={m.id}
               onClick={() => setSelectedMemberId(m.id)}
